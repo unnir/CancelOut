@@ -1,6 +1,6 @@
 # CancelOut
-
-**CancelOut** is a layer for deep neural networks, that can help identify a subset of relevant input features for streaming or static data.  The CancelOut layers allows you to make a Feature Importance analysis. 
+# TL;DR
+**CancelOut** is a layer for deep neural networks, that can help identify a subset of relevant input features for streaming or static data.  
 
 TAGS: Feature Importance, Feature Ranking, Feature Selection, Deep Learning Sensitivity Analysis.
 
@@ -17,6 +17,22 @@ The main idea is to update weights (W) of CancelOut during a training stage, so 
 # Example 
 
 For examples, please refer to the `example.ipynb` file.  
+
+Or just copy the code: 
+
+`python
+class CancelOut(nn.Module):
+    '''
+    CancelOut Layer
+    
+    x - an input data (vector, matrix, tensor)
+    '''
+    def __init__(self,inp, *kargs, **kwargs):
+        super(CancelOut, self).__init__()
+        self.weights = nn.Parameter(torch.zeros(inp,requires_grad = True) + 4)
+    def forward(self, x):
+        return (x * torch.sigmoid(self.weights.float()))
+`
 
 
 #  * Work in progress. *
