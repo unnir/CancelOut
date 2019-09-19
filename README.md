@@ -20,7 +20,8 @@ For examples, please refer to the `example.ipynb` file.
 
 Or just copy the code: 
 
-`python
+```python
+
 class CancelOut(nn.Module):
     '''
     CancelOut Layer
@@ -32,7 +33,7 @@ class CancelOut(nn.Module):
         self.weights = nn.Parameter(torch.zeros(inp,requires_grad = True) + 4)
     def forward(self, x):
         return (x * torch.sigmoid(self.weights.float()))
-`
+```
 
 
 #  * Work in progress. *
