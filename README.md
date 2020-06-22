@@ -20,6 +20,8 @@ For examples, please refer to the `example.ipynb` file.
 
 Or just copy the code: 
 
+
+## PyTorch implementation:
 ```python
 
 class CancelOut(nn.Module):
@@ -33,13 +35,39 @@ class CancelOut(nn.Module):
         self.weights = nn.Parameter(torch.zeros(inp,requires_grad = True) + 4)
     def forward(self, x):
         return (x * torch.sigmoid(self.weights.float()))
-```
 
+```
+## Keras/TensorFlow implementation:
+
+```python
+class CancelOut(keras.layers.Layer):
+    '''
+    CancelOut Layer
+    '''
+    def __init__(self, activation='sigmoid', cancelout_loss=True, lambda_1=0.002, lambda_2=0.001):
+        super(CancelOut, self).__init__()
+        self.lambda_1 = lambda_1
+        self.lambda_2 = lambda_2
+        self.cancelout_loss = cancelout_loss
+        
+        if activation == 'sigmoid': self.activation = tf.sigmoid
+        if activation == 'softmax': self.activation = tf.nn.softmax
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            shape=(input_shape[-1],),
+            initializer=tf.keras.initializers.Constant(1),
+            trainable=True)
+        
+    def call(self, inputs):
+        if self.cancelout_loss:
+            self.add_loss( self.lambda_1 * tf.norm(self.w, ord=1) + self.lambda_2 * tf.norm(self.w, ord=2))
+        return tf.math.multiply(inputs, self.activation(self.w))
+    
+    def get_config(self):
+        return {"activation": self.activation}    
+```
 
 #  * Work in progress. *
 
-### TODO:
-- [x] PyTorch implementation
-- [ ] Add more activation functions -> softmax, tanh 
-- [ ] Keras / TensorFlow implementation 
-- [ ] More examples 
+
