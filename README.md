@@ -16,7 +16,7 @@ The main idea is to update weights (W) of CancelOut during a training stage, so 
 
 # Example 
 
-For examples, please refer to the `example.ipynb` file.  
+For examples, please refer to the `<framework>_example.ipynb` files.  
 
 Or just copy the code: 
 
